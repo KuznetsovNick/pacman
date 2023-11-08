@@ -1,0 +1,25 @@
+body{
+    margin: 10px;
+    position: relative;
+    background-color: black;
+    image-rendering: pixelated;
+    display: flex;
+    flex-direction: row;
+}
+
+#map-container{
+    position: relative;
+    width: calc(28*8px);
+    height: calc(31*8px);
+}
+
+.tile{
+}
+
+#id{
+}
+
+#score{
+    position: relative;
+    color: white;
+}
