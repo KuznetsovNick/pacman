@@ -152,14 +152,15 @@ export default class Blinky{
     }
 
     reverse(){
-        this.direction = [-this.direction[0], -this.direction[1]]
-        this.cell_x += this.direction[0]*this.cell_size
-        this.cell_y += this.direction[1]*this.cell_size
+        if(Math.abs(this.direction[0]) === 1) this.direction[0] = -this.direction[0]
+        if(Math.abs(this.direction[1]) === 1) this.direction[1] = -this.direction[1]
         this.x -= this.direction[0]
         this.y -= this.direction[1]
+        this.cell_x += this.cell_size*this.direction[0]
+        this.cell_y += this.cell_size*this.direction[1]
     }
 
-    back_to_home(){
+    back_to_home(timeout = 0){
         this.div.hidden = true
         this.is_active = false
         setTimeout(() => {
@@ -172,6 +173,6 @@ export default class Blinky{
             this.div.style.left = `${this.x * this.cell_size - this.img_offset + this.cell_x}px`
             this.div.style.top = `${this.y * this.cell_size - this.img_offset + this.cell_y}px`
             this.div.hidden = false
-        }, 1000)
+        }, timeout)
     }
 }

@@ -53,18 +53,15 @@ export default class Clyde{
                 this.direction = directions.up
                 this.move()
                 pixels++
-            } else if(pixels === this.cell_size*3 + 20){
+            } else {
+                this.direction = directions.left
                 this.is_active = true
                 clearInterval(interval)
-            } else{
-                this.direction = directions.left
-                this.move()
-                pixels++
             }
         }, 50)
     }
 
-    back_to_home(){
+    back_to_home(timeout = 0, went = true){
         this.div.hidden = true
         this.is_active = false
         setTimeout(() => {
@@ -73,12 +70,12 @@ export default class Clyde{
             this.y = this.start_y
             this.cell_x = -4
             this.cell_y = 0
-            this.went_from_home()
             this.div.style.left = `${this.x * this.cell_size - this.img_offset + this.cell_x}px`
             this.div.style.top = `${this.y * this.cell_size - this.img_offset + this.cell_y}px`
             this.div.hidden = false
             this.sprite = sprites.up
-        }, 1000)
+            if(went) this.went_from_home()
+        }, timeout)
     }
 
     move(){
@@ -200,10 +197,11 @@ export default class Clyde{
     }
 
     reverse(){
-        this.direction = [-this.direction[0], -this.direction[1]]
-        this.cell_x += this.direction[0]*this.cell_size
-        this.cell_y += this.direction[1]*this.cell_size
+        if(Math.abs(this.direction[0]) === 1) this.direction[0] = -this.direction[0]
+        if(Math.abs(this.direction[1]) === 1) this.direction[1] = -this.direction[1]
         this.x -= this.direction[0]
         this.y -= this.direction[1]
+        this.cell_x += this.cell_size*this.direction[0]
+        this.cell_y += this.cell_size*this.direction[1]
     }
 }

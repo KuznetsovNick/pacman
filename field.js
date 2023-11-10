@@ -3,16 +3,18 @@ export default class Field {
     width = 28
     height = 31
     map
+    original_map
     divs = []
     constructor() {
         fetch("map.tmj").then(res => res.json()).then(json => {
-            this.map = json
+            this.tmj = json
             this.draw_field()
         })
         fetch("map.json")
             .then(res => res.json())
             .then(json => {
                 this.map = json.map
+                this.original_map = structuredClone(this.map)
             })
     }
 
@@ -22,7 +24,7 @@ export default class Field {
         for (let y = 0; y < this.height; y++) {
             this.divs.push([])
             for (let x = 0; x < this.width; x++) {
-                const tileValue = this.map.layers[0].data[y * this.width + x] - 1;
+                const tileValue = this.tmj.layers[0].data[y * this.width + x] - 1;
                 const tile = document.createElement('div');
                 tile.className = 'tile';
                 tile.style.width = `${this.cell_size}px`;
@@ -63,5 +65,18 @@ export default class Field {
         }
         this.map[y][x] = 1
         return value
+    }
+
+    update(){
+        this.map = structuredClone(this.original_map)
+        for(let y = 0; y < this.height; y++){
+            for(let x = 0; x < this.width; x++){
+                if(this.map[y][x] === 2){
+                    this.divs[y][x].style.backgroundPosition = `-${dot_cell[0] * this.cell_size}px -${dot_cell[1] * this.cell_size}px`
+                } else if(this.map[y][x] === 3){
+                    this.divs[y][x].style.backgroundPosition = `-${boost_cell[0] * this.cell_size}px -${boost_cell[1] * this.cell_size}px`
+                }
+            }
+        }
     }
 }

@@ -8,7 +8,7 @@ const sprites = {
 export default class Player{
     size = 16
     cell_size = 8
-    start_x = 14
+    start_x = 13
     start_y = 17
     img_offset = 4
     x = this.start_x
@@ -76,7 +76,15 @@ export default class Player{
             this.sprite = sprites.up
     }
 
-    stop(){
+    back_to_spawn(){
+        this.x = this.start_x
+        this.y = this.start_y
+        this.cell_x = 0
+        this.cell_y = 0
+        this.sprite = sprites.start
         this.direction = directions.stop
+        this.wanted_direction = directions.stop
+        this.div.style.left = `${this.start_x * this.cell_size - this.img_offset}px`
+        this.div.style.top = `${this.start_y * this.cell_size - this.img_offset}px`
     }
 }

@@ -1,9 +1,24 @@
 doctype html
 head
     meta(charset='utf-8')
+    link(rel='stylesheet' href='./font.TTF')
     link(rel='stylesheet' href='./style.css')
     title Pacman
     script(src="./consts.js")
 body
-    div(id='map-container')
+    div(id="map-container")
+        div(id="game_over")
+    div(id="btn-container")
+        div(id="level" class="btn" style="line-height: 24px") level 1
+        div(id="score" class="btn" style="line-height: 24px")
+        div(id="user_name" class="btn" style="line-height: 24px")
+        button(id="pause" class="btn")
+        button(id="restart" class="btn") restart
+        input(id="user" class="btn" placeholder="your name")
+        button(id="start" class="btn") start
+        button(id="change_user" class="btn" style="height: max-content") change user
+        div(id="top-container")
+            div(id="1place" style="color: gold") 1
+            div(id="2place" style="color: silver") 2
+            div(id="3place" style="color: #cd7f32") 3
     script(type="module" src="./main.js")

@@ -2,6 +2,7 @@ export default class Controller{
     handling(event, field, player){
         switch (event.keyCode){
             case keys["LEFT"]:
+                //console.log("left")
                 player.wanted_direction = directions.left
                 break
             case keys["RIGHT"]:

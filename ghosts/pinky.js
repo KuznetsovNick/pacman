@@ -26,27 +26,21 @@ export default class Pinky{
     behaviour = this.chase
     target_cell = [0, 0]
     is_active = false
-    pause
     constructor(field, player) {
         const mapContainer = document.getElementById('map-container');
         this.div = document.createElement('div');
         this.div.id = "pinky"
 
-        this.pause = document.createElement("button")
-        this.pause.innerHTML = "pause"
-        document.body.appendChild(this.pause)
-
         this.div.style.width = `${this.size}px`;
         this.div.style.height = `${this.size}px`;
         this.div.style.backgroundImage = `url('sprites.png')`;
         this.div.style.backgroundPosition = `-${this.sprite[0][0] * this.cell_size}px -${this.sprite[0][1] * this.cell_size}px`
-        this.div.style.left = `${this.start_x * this.cell_size - this.img_offset}px`
+        this.div.style.left = `${this.start_x * this.cell_size - this.img_offset + this.cell_x}px`
         this.div.style.top = `${this.start_y * this.cell_size - this.img_offset}px`
         this.div.style.position = "absolute"
         mapContainer.appendChild(this.div);
         this.player = player
         this.field = field
-        this.went_from_home()
     }
 
     went_from_home(){
@@ -56,18 +50,15 @@ export default class Pinky{
                 this.direction = directions.up
                 this.move()
                 pixels += 1
-            } else if(pixels === this.cell_size*3 + 4){
-                this.is_active = true
-                clearInterval(interval)
             } else{
                 this.direction = directions.right
-                this.move()
-                pixels += 1
+                this.is_active = true
+                clearInterval(interval)
             }
         }, 50)
     }
 
-    back_to_home(){
+    back_to_home(timeout = 0, went = true){
         this.div.hidden = true
         this.is_active = false
         setTimeout(() => {
@@ -76,12 +67,12 @@ export default class Pinky{
             this.y = this.start_y
             this.cell_x = 4
             this.cell_y = 0
-            this.went_from_home()
             this.div.style.left = `${this.x * this.cell_size - this.img_offset + this.cell_x}px`
             this.div.style.top = `${this.y * this.cell_size - this.img_offset + this.cell_y}px`
             this.div.hidden = false
             this.sprite = sprites.up
-        }, 1000)
+            if(went) this.went_from_home()
+        }, timeout)
     }
 
     move(){
@@ -195,10 +186,11 @@ export default class Pinky{
         }
     }
     reverse(){
-        this.direction = [-this.direction[0], -this.direction[1]]
-        this.cell_x += this.direction[0]*this.cell_size
-        this.cell_y += this.direction[1]*this.cell_size
+        if(Math.abs(this.direction[0]) === 1) this.direction[0] = -this.direction[0]
+        if(Math.abs(this.direction[1]) === 1) this.direction[1] = -this.direction[1]
         this.x -= this.direction[0]
         this.y -= this.direction[1]
+        this.cell_x += this.cell_size*this.direction[0]
+        this.cell_y += this.cell_size*this.direction[1]
     }
 }

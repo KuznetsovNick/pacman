@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'Joystix';
+    src: url('/font.ttf') format('truetype');
+    /* Другие стили шрифта, если необходимо */
+}
+
 body{
     margin: 10px;
     position: relative;
@@ -5,6 +11,10 @@ body{
     image-rendering: pixelated;
     display: flex;
     flex-direction: row;
+    gap: 8px;
+    font-family: Joystix, serif;
+    font-size: 12px;
+    justify-content: center;
 }
 
 #map-container{
@@ -13,13 +23,43 @@ body{
     height: calc(31*8px);
 }
 
-.tile{
-}
-
-#id{
+#btn-container{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100px;
+    height: calc(31*8px);
+    justify-content: center;
 }
 
 #score{
     position: relative;
     color: white;
+}
+
+#game_over{
+    color: white;
+    background-color: black;
+    z-index: 1;
+    position: absolute;
+    top: 56%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(17*8px);
+    text-align: center;
+}
+
+.btn{
+    font-size: inherit;
+    cursor: pointer;
+    color: white;
+    font-family: inherit;
+    background-color: black;
+    border-color: #2121FF;
+    height: 24px;
+    text-align: center;
+}
+
+#top-container{
+
 }
